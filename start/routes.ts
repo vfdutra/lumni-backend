@@ -27,3 +27,8 @@ Route.get('/', async () => {
 Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
 Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
+
+Route.post('/users', 'UsersController.store').as('users.store')
+Route.put('/users/:id', 'UsersController.update').as('users.update')
+
+Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
