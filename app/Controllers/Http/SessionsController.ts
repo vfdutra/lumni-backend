@@ -16,5 +16,10 @@ export default class SessionsController {
       return response.badRequest('Invalid credentials')
     }
   }
+
+  public async delete ({ auth, response }: HttpContextContract) {
+    await auth.use('web').logout()
+    return response.redirect().toRoute('index')
+  }
 }
  
