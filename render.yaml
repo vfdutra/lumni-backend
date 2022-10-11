@@ -10,7 +10,7 @@ databases:
    plan: starter plus
    repo: https://github.com/render-oss/docker-pgbouncer
    envVars:
-   - key: DATABASE_URL
+   - key: postgres://root:IVHcu7gXyibiNq9B2cnpzERNLmpmewLg@dpg-cd02q44gqg4ftbmkiqpg-a/lumni
      fromDatabase:
        name: mysite
        property: connectionString
