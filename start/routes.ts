@@ -29,6 +29,9 @@ Route.post('/login', 'SessionsController.store').as('sessions.store')
 Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
 
 Route.post('/users', 'UsersController.store').as('users.store')
+Route.get('/users', async () => {
+  return { status: '200' }
+})
 Route.put('/users/:id', 'UsersController.update').as('users.update')
 
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
