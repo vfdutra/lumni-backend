@@ -63,12 +63,14 @@
     "luxon": "^3.0.4",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "parse-url": "^8.1.0",
     "pg": "^8.8.0",
     "phc-argon2": "^1.1.3",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
-    "sqlite3": "^5.1.2"
+    "sqlite3": "^5.1.2",
+    "url-parse": "^1.5.10"
   },
   "resolutions": {
     "glob-parent": "5.1.2"
