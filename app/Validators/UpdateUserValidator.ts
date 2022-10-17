@@ -8,7 +8,7 @@ export default class UpdateUserValidator {
    * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
    *
    * For example:
-   * 1. The username must be of data type string. But then also, it should
+   * 1. The username must be of data type string.optional. But then also, it should
    *    not contain special characters or numbers.
    *    ```
    *     schema.string({}, [ rules.alpha() ])
@@ -24,9 +24,10 @@ export default class UpdateUserValidator {
    *    ```
    */
   public schema = schema.create({
-    password: schema.string({}, [rules.minLength(4)]),
-    name: schema.string({}, ),
-    email: schema.string({}, [rules.email()]),
+    password: schema.string.optional({}, [rules.minLength(4)]),
+    name: schema.string.optional({}, ),
+    email: schema.string.optional({}, [rules.email(),]),
+    type: schema.number.optional([rules.range(1, 3)])
   })
 
   /**
