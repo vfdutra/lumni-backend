@@ -14,9 +14,12 @@ export default class UsersController {
         return response.created({user})
     }
 
-    public async update ({ request, response }: HttpContextContract){
+    public async update ({ request, response, bouncer }: HttpContextContract){
         const userPayload = await request.validate(UpdateUser)
         const user = await User.findByOrFail('id', request.param('id'))
+
+        await bouncer.authorize('updateUser', user)        
+
         user.merge(userPayload)
         await user.save()
         return response.ok({user})
