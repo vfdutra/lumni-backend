@@ -6,20 +6,18 @@ export default class SessionsController {
   }
   
   public async store ({ auth, request, response }: HttpContextContract) {
-    const email = request.input('email')
-    const password = request.input('password')
+    const { email, password } = request.only(['email', 'password'])
 
-    try {
-      await auth.use('web').attempt(email, password)
-      return response.ok('Logged in')
-    } catch {
-      return response.badRequest('Invalid credentials')
-    }
+    const  token  = await auth.use('api').attempt(email, password, {
+      expiresIn: '2hours',
+    })
+
+    return response.created({ user: auth.user, token })
   }
 
-  public async delete ({ auth, response }: HttpContextContract) {
-    await auth.use('web').logout()
-    return response.redirect().toRoute('index')
+  public async destroy ({ auth, response }: HttpContextContract) {
+    await auth.use('api').logout()
+    return response.ok({'message': 'Logout successfully'})
   }
 }
  
