@@ -30,7 +30,7 @@ Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
 
 Route.post('/users', 'UsersController.store').as('users.store')
 Route.get('/users', async () => {
-  return { status: '300' }
+  return { status: '400' }
 })
 Route.put('/users/:id', 'UsersController.update').as('users.update')
 
