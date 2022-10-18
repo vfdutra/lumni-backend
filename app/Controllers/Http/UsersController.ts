@@ -18,7 +18,7 @@ export default class UsersController {
         const userPayload = await request.validate(UpdateUser)
         const user = await User.findByOrFail('id', request.param('id'))
 
-        await bouncer.authorize('updateUser', user)        
+        //await bouncer.authorize('updateUser', user)        
 
         user.merge(userPayload)
         await user.save()
