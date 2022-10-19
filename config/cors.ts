@@ -44,7 +44,10 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: 'true',
+  origin: [
+    'http://localhost:3000',
+    'https://lumni-theta.vercel.app',
+  ],
 
   /*
   |--------------------------------------------------------------------------
