@@ -1,4 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import User from 'App/Models/User'
+import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class SessionsController {
   public async create ({ view }: HttpContextContract) {
@@ -8,15 +10,20 @@ export default class SessionsController {
   public async store ({ auth, request, response }: HttpContextContract) {
     const { email, password } = request.only(['email', 'password'])
 
-    const { token }= await auth.use('api').attempt(email, password, {
-      expiresIn: '2hours',
+    const user = await User.findByOrFail('email', email)
+
+    if (!(await Hash.verify(user.password, password))) {
+    return response.unauthorized('Invalid credentials')
+    }
+    const { token } = await auth.use('api').generate(user, {
+      expiresIn: '2 hours'
     })
 
-    return response.created({ user: auth.use('api').user, token})
+    return response.created({ user, token })
   }
 
   public async destroy ({ auth, response }: HttpContextContract) {
-    await auth.use('api').logout()
+    await auth.use('api').revoke()
     return response.ok({'message': 'Logout successfully'})
   }
 }
