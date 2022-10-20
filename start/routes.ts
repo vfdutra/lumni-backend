@@ -30,5 +30,6 @@ Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
 
 Route.post('/users', 'UsersController.store').as('users.store')
 Route.put('/users/:id', 'UsersController.update').as('users.update')
+Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
 
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
