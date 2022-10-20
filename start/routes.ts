@@ -32,4 +32,8 @@ Route.post('/users', 'UsersController.store').as('users.store')
 
 Route.put('/users/:id', 'UsersController.update').as('users.update').middleware('auth')
 
+Route.get('/teste', async () => {
+  return { status : 200}
+})
+
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
