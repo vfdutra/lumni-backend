@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasOne } from '@ioc:Adonis/Lucid/Orm'
+import Option from 'App/Models/Option'
 
 export default class Problem extends BaseModel {
   @column({ isPrimary: true })

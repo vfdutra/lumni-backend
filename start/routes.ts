@@ -33,3 +33,8 @@ Route.put('/users/:id', 'UsersController.update').as('users.update')
 Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
 
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
+
+Route.post('/problems', 'ProblemsController.store').as('problems.store')
+Route.delete('/problems/:id', 'ProblemsController.delete').as('problems.delete')
+Route.put('/problems/:id', 'ProblemsController.update').as('problems.update')
+Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll')
