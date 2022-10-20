@@ -14,4 +14,4 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "lumni-backend" #Must be unique in Heroku
-          heroku_email: "vfdutra@inf.ufsm.b"
+          heroku_email: "vfdutra@inf.ufsm.br"
