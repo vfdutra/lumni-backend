@@ -37,3 +37,5 @@ Route.get('/teste', async () => {
 })
 
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
+
+Route.get('/findUser/:id', 'UsersController.findUser').as('users.findUser')

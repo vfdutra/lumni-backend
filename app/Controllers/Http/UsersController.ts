@@ -29,4 +29,9 @@ export default class UsersController {
         const users = await User.all()
         return response.ok({users})
     }
+
+    public async findUser ({ response, request }: HttpContextContract){
+        const user = await User.findByOrFail('id', request.param('id'))
+        return response.ok({user})
+    }
 }
