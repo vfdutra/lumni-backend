@@ -29,13 +29,12 @@ Route.post('/login', 'SessionsController.store').as('sessions.store')
 Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 
 Route.post('/users', 'UsersController.store').as('users.store')
-
-Route.put('/users/:id', 'UsersController.update').as('users.update').middleware('auth')
-
-Route.get('/teste', async () => {
-  return { status : 200}
-})
+Route.put('/users/:id', 'UsersController.update').as('users.update')
+Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
 
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
 
-Route.get('/findUser/:id', 'UsersController.findUser').as('users.findUser')
+Route.post('/problems', 'ProblemsController.store').as('problems.store')
+Route.delete('/problems/:id', 'ProblemsController.delete').as('problems.delete')
+Route.put('/problems/:id', 'ProblemsController.update').as('problems.update')
+Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll')
