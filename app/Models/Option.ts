@@ -1,4 +1,5 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import Problem from './Problem'
 
 export default class Option extends BaseModel {
   @column({ isPrimary: true })
@@ -12,4 +13,9 @@ export default class Option extends BaseModel {
 
   @column()
   public correct: number
+
+  @belongsTo(() => Problem, {
+    localKey: 'problemId'
+  })
+  public problem: BelongsTo<typeof Problem>
 }
