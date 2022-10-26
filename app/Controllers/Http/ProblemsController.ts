@@ -1,28 +1,20 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Option from 'App/Models/Option';
 import Problem from 'App/Models/Problem'
 
 export default class ProblemsController {
     public async store({ request, response }: HttpContextContract) {
         const problemsList = request.input("problems");
-        //const problems = await Problem.createMany(problemsList)
-        const problems = problemsList.map(problem => ({
-            description: problem.description,
-            level: problem.level,
-            tips: problem.tips,
-            options: problem.options.map(option => ({
-                description: option.description,
-                problem_id: problem.id,
-                correct: option.correct
-            }))
-        }))
-        const problemss = await Problem.createMany(problems)
-        console.log(problems[0])
+        problemsList.forEach(problem => {
+            const newProblem = new Problem();
+            newProblem.description = problem.description;
+            newProblem.level = problem.level;
+            newProblem.tips = problem.tips;
+            newProblem.save();
 
+            newProblem.related('options').createMany(problem.options);
+        });
 
-
-
-        return response.ok({ problems })
+        return response.ok({ problemsList })
     }
     
     public async update({ request, response }: HttpContextContract) {
@@ -42,5 +34,13 @@ export default class ProblemsController {
     public async findAll({ response }: HttpContextContract) {
         const problems = await Problem.all()
         return response.ok({ problems })
+    }
+
+    public async findLastId()  {
+        const id = await Problem.query().orderBy('id', 'desc').first();
+
+        console.log(id?.$attributes.id);
+
+        return id?.$attributes.id;
     }
 }

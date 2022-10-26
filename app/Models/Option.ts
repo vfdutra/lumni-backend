@@ -9,13 +9,13 @@ export default class Option extends BaseModel {
   public description: string
 
   @column()
-  public problemId: number
+  public problem_id: any
 
   @column()
   public correct: number
 
   @belongsTo(() => Problem, {
-    localKey: 'problemId'
+    localKey: 'problem_id',
   })
   public problem: BelongsTo<typeof Problem>
 }
