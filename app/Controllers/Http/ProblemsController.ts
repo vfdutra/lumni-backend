@@ -9,8 +9,7 @@ export default class ProblemsController {
             newProblem.description = problem.description;
             newProblem.level = problem.level;
             newProblem.tips = problem.tips;
-            newProblem.save();
-
+            
             newProblem.related('options').createMany(problem.options);
         });
 
