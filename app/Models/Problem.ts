@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-// import Option from 'App/Models/Option'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import Option from 'App/Models/Option'
 
 export default class Problem extends BaseModel {
   @column({ isPrimary: true })
@@ -8,6 +8,11 @@ export default class Problem extends BaseModel {
 
   @column()
   public description: string
+
+  @hasMany(() => Option, {
+    foreignKey: 'problem_id',
+  })
+  public options: HasMany<typeof Option>
 
   @column()
   public level: number

@@ -4,8 +4,16 @@ import Problem from 'App/Models/Problem'
 export default class ProblemsController {
     public async store({ request, response }: HttpContextContract) {
         const problemsList = request.input("problems");
-        const problems = await Problem.createMany(problemsList)
-        return response.ok({ problems })
+        problemsList.forEach(problem => {
+            const newProblem = new Problem();
+            newProblem.description = problem.description;
+            newProblem.level = problem.level;
+            newProblem.tips = problem.tips;
+            
+            newProblem.related('options').createMany(problem.options);
+        });
+
+        return response.ok({ problemsList })
     }
     
     public async update({ request, response }: HttpContextContract) {
@@ -25,5 +33,13 @@ export default class ProblemsController {
     public async findAll({ response }: HttpContextContract) {
         const problems = await Problem.all()
         return response.ok({ problems })
+    }
+
+    public async findLastId()  {
+        const id = await Problem.query().orderBy('id', 'desc').first();
+
+        console.log(id?.$attributes.id);
+
+        return id?.$attributes.id;
     }
 }
