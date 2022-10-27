@@ -28,13 +28,18 @@ Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
 Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
 
+//users
 Route.post('/users', 'UsersController.store').as('users.store')
 Route.put('/users/:id', 'UsersController.update').as('users.update')
 Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
-
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
 
+//problem
 Route.post('/problems', 'ProblemsController.store').as('problems.store')
 Route.delete('/problems/:id', 'ProblemsController.delete').as('problems.delete')
 Route.put('/problems/:id', 'ProblemsController.update').as('problems.update')
 Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll')
+
+//options
+Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
+Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
