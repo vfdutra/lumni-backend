@@ -38,16 +38,20 @@ export default class ProblemsController {
         return response.ok({ problem })
     }
 
+    public async deleteOption({ request, response }: HttpContextContract) {
+        const option = await Option.findByOrFail('id', request.param('id'))
+        await option.delete()
+        return response.ok({ option })
+    }
+
+    public async findProblem({ request, response }: HttpContextContract) {
+        const problem = await Problem.findByOrFail('id', request.param('id'))
+        const options = await problem.related('options').query()
+        return response.ok({ problem, options })
+    }
+
     public async findAll({ response }: HttpContextContract) {
         const problems = await Problem.all()
         return response.ok({ problems })
-    }
-
-    public async findLastId()  {
-        const id = await Problem.query().orderBy('id', 'desc').first();
-
-        console.log(id?.$attributes.id);
-
-        return id?.$attributes.id;
     }
 }
