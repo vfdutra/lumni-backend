@@ -46,7 +46,7 @@ const corsConfig: CorsConfig = {
   */
   origin: [
     'http://localhost:3000',
-    'https://lumnifront.vercel.app/',
+    'https://lumnifront.vercel.app',
   ],
 
   /*
