@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Problem from 'App/Models/Problem'
+import Option from 'App/Models/Option'
 
 export default class ProblemsController {
     public async store({ request, response }: HttpContextContract) {
@@ -17,10 +18,17 @@ export default class ProblemsController {
     }
     
     public async update({ request, response }: HttpContextContract) {
-        const problemPayload = await request.only(['description', 'level', 'tips'])
+        const problemPayload = request.all()
         const problem = await Problem.findByOrFail('id', request.param('id'))
         problem.merge(problemPayload)
         await problem.save()
+
+        problemPayload.options.forEach(async (option: any) => {
+            const optionModel = await Option.findByOrFail('id', option.id)
+            optionModel.merge(option)
+            await optionModel.save()
+        })
+
         return response.ok({ problem })
     }
     
