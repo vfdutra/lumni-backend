@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "start": "node server.js",
+    "start": "ENV_SILENT=true node build/server.js",
     "lint": "eslint . --ext=.ts",
     "format": "prettier --write ."
   },
@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@adonisjs/auth": "^8.2.2",
+    "@adonisjs/bouncer": "^2.3.0",
     "@adonisjs/core": "^5.8.6",
     "@adonisjs/lucid": "^18.1.1",
     "@adonisjs/repl": "^3.1.11",
@@ -63,12 +64,14 @@
     "luxon": "^3.0.4",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "parse-url": "^8.1.0",
     "pg": "^8.8.0",
     "phc-argon2": "^1.1.3",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
-    "sqlite3": "^5.1.2"
+    "sqlite3": "^5.1.2",
+    "url-parse": "^1.5.10"
   },
   "resolutions": {
     "glob-parent": "5.1.2"

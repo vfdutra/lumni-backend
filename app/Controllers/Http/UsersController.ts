@@ -17,6 +17,9 @@ export default class UsersController {
     public async update ({ request, response }: HttpContextContract){
         const userPayload = await request.validate(UpdateUser)
         const user = await User.findByOrFail('id', request.param('id'))
+
+        //await bouncer.authorize('updateUser', user)        
+
         user.merge(userPayload)
         await user.save()
         return response.ok({user})
@@ -31,5 +34,10 @@ export default class UsersController {
     public async findAll ({ response }: HttpContextContract){
         const users = await User.all()
         return response.ok({users})
+    }
+
+    public async findUser ({ response, request }: HttpContextContract){
+        const user = await User.findByOrFail('id', request.param('id'))
+        return response.ok({user})
     }
 }

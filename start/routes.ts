@@ -26,13 +26,14 @@ Route.get('/', async () => {
 
 Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
-Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
+Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 
 //users
 Route.post('/users', 'UsersController.store').as('users.store')
 Route.put('/users/:id', 'UsersController.update').as('users.update')
 Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
 Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
+Route.post('/findUser/:id', 'UsersController.findUser').as('users.findUser')
 
 //problem
 Route.post('/problems', 'ProblemsController.store').as('problems.store')

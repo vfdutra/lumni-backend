@@ -20,7 +20,7 @@ const corsConfig: CorsConfig = {
   | you can define a function to enable/disable it on per request basis as well.
   |
   */
-  enabled: false,
+  enabled: true,
 
   // You can also use a function that return true or false.
   // enabled: (request) => request.url().startsWith('/api')
@@ -44,7 +44,12 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: '*',
+  origin: [
+    'http://localhost:3000',
+    'https://lumnifront.vercel.app',
+    'https://lumnifront-git-main-henriquerl55.vercel.app',
+    'https://lumnifront-henriquerl55.vercel.app',
+  ],
 
   /*
   |--------------------------------------------------------------------------
