@@ -11,6 +11,11 @@ export default class UsersController {
         if (userByEmail) return response.conflict({ message: 'User already exists' })
         
         const user = await User.create(userPayload)
+
+        if(userPayload.type == 3){
+            await user.related('player').create({})
+        }
+
         return response.created({user})
     }
 
