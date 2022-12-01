@@ -28,9 +28,13 @@ Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
 Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 
+Route.post('/users/create', 'UsersController.store').as('users.store')
+
 Route
   .group(() => {
-    Route.post('/create', 'UsersController.store').as('users.store')
+
+  Route
+  .group(() => {
     Route.put('/update/:id', 'UsersController.update').as('users.update')
     Route.delete('/delete/:id', 'UsersController.delete').as('users.delete')
     Route.get('/findAll', 'UsersController.findAll').as('users.findAll')
@@ -43,9 +47,9 @@ Route
     Route.post('/create', 'ProblemsController.store').as('problems.store')
     Route.delete('/delete/:id', 'ProblemsController.delete').as('problems.delete')
     Route.put('/update/:id', 'ProblemsController.update').as('problems.update')
-    Route.get('/find', 'ProblemsController.findAll').as('problems.findAll')
+    Route.get('/findAll', 'ProblemsController.findAll').as('problems.findAll')
     Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
-    Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
+    Route.get('/findone/:id', 'ProblemsController.findProblem').as('problems.findProblem')
   })
   .prefix('/problems')
 
@@ -70,3 +74,5 @@ Route
     Route.get('/getHighscore', 'PlayersController.highscore').as('players.highscore')
   })
   .prefix('/players')
+})
+.middleware('auth:api')
