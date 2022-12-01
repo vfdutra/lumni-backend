@@ -43,3 +43,20 @@ Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll
 //options
 Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
 Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
+
+//answers
+Route.post('/answers', 'AnswersController.store').as('answers.store')
+Route.put('/answers/:id', 'AnswersController.update').as('answers.update')
+Route.delete('/answers/:id', 'AnswersController.delete').as('answers.delete')
+Route.get('/findAnswer/:id', 'AnswersController.findAnswer').as('answers.findAnswer')
+Route.get('/findAllAnswers', 'AnswersController.findAll').as('answers.findAll')
+Route.get('/findAnswerByPlayer/:id', 'AnswersController.findAnswerByPlayer').as('answers.findAnswerByPlayer')
+
+//players
+Route.post('/players', 'PlayersController.store').as('players.store')
+Route.put('/players/:id', 'PlayersController.update').as('players.update')
+Route.delete('/players/:id', 'PlayersController.delete').as('players.delete')
+Route.get('/findPlayer/:id', 'PlayersController.findPlayer').as('players.findPlayer')
+Route.get('/findAllPlayers', 'PlayersController.findAll').as('players.findAll')
+Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
+
