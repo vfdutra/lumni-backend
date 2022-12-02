@@ -30,8 +30,8 @@ Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 
 Route.post('/users/create', 'UsersController.store').as('users.store')
 
-Route
-  .group(() => {
+// Route
+//   .group(() => {
 
   Route
   .group(() => {
@@ -49,7 +49,8 @@ Route
     Route.put('/update/:id', 'ProblemsController.update').as('problems.update')
     Route.get('/findAll', 'ProblemsController.findAll').as('problems.findAll')
     Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
-    Route.get('/findone/:id', 'ProblemsController.findProblem').as('problems.findProblem')
+    Route.get('/findOne/:id', 'ProblemsController.findProblem').as('problems.findProblem')
+    Route.get('/random', 'ProblemsController.random').as('problems.random')
   })
   .prefix('/problems')
 
@@ -74,5 +75,5 @@ Route
     Route.get('/getHighscore', 'PlayersController.highscore').as('players.highscore')
   })
   .prefix('/players')
-})
-.middleware('auth:api')
+// })
+// .middleware('auth:api')
