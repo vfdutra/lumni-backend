@@ -16,7 +16,7 @@ export default class SessionsController {
   }
 
   public async destroy ({ auth, response }: HttpContextContract) {
-    await auth.use('api').logout()
+    await auth.use('api').revoke()
     return response.ok({'message': 'Logout successfully'})
   }
 }

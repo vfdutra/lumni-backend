@@ -1,6 +1,9 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Problem from 'App/Models/Problem'
 import Option from 'App/Models/Option'
+import Database from '@ioc:Adonis/Lucid/Database';
+import Answer from 'App/Models/Answer';
+
 
 export default class ProblemsController {
     public async store({ request, response }: HttpContextContract) {
@@ -53,5 +56,36 @@ export default class ProblemsController {
     public async findAll({ response }: HttpContextContract) {
         const problems = await Problem.all()
         return response.ok({ problems })
+    }
+
+    public async random({ request, response }: HttpContextContract) {
+        const playerLevel = await Database
+                                    .query()
+                                    .select('p.level')
+                                    .from('problems as p')
+                                    .join('players as p2', 'p2.player_level', '=', 'p.level')
+                                    .where('p2.id',request.input('id'))
+                                    .groupBy('p.level')
+
+        const alreadyAnswered = await Answer
+                                        .query()
+                                        .select('problem_id')
+                                        .where('player_id', 1);
+
+        const alreadyAnsweredIds = alreadyAnswered.map((answer) => answer.problem_id);
+        const problems = await Database
+                                .query()
+                                .from('problems')
+                                .whereNotIn('id', alreadyAnsweredIds)
+                                .where('level', playerLevel[0].level)
+                                .orderByRaw('RANDOM()')
+                                .limit(1);
+
+        const options = await Database
+                                .query()
+                                .from('options')
+                                .where('problem_id', problems[0].id);
+                            
+        return response.ok({ problems, options })
     }
 }
