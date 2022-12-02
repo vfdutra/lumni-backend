@@ -42,7 +42,7 @@ Route.put('/problems/:id', 'ProblemsController.update').as('problems.update')
 Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll')
 Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
 Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
-Route.get('/random', 'ProblemsController.random').as('problems.random')
+Route.get('/randomProblem/:id', 'ProblemsController.random').as('problems.random')
 
 //answers
 Route.post('/answers', 'AnswersController.store').as('answers.store')

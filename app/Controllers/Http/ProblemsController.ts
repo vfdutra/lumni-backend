@@ -64,7 +64,7 @@ export default class ProblemsController {
                                     .select('p.level')
                                     .from('problems as p')
                                     .join('players as p2', 'p2.player_level', '=', 'p.level')
-                                    .where('p2.id',request.input('id'))
+                                    .where('p2.id',request.param('id'))
                                     .groupBy('p.level')
 
         const alreadyAnswered = await Answer
