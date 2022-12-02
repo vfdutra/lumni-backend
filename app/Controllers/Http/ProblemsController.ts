@@ -70,7 +70,7 @@ export default class ProblemsController {
         const alreadyAnswered = await Answer
                                         .query()
                                         .select('problem_id')
-                                        .where('player_id', 1);
+                                        .where('player_id', request.param('id'));
 
         const alreadyAnsweredIds = alreadyAnswered.map((answer) => answer.problem_id);
         const problems = await Database
