@@ -13,8 +13,12 @@ export default class ProblemsController {
             newProblem.description = problem.description;
             newProblem.level = problem.level;
             newProblem.tips = problem.tips;
-            
-            newProblem.related('options').createMany(problem.options);
+
+            if(problem.options.length != 5){
+                return response.badRequest({ message: 'Number of options must be 5' })
+            }  else{
+                newProblem.related('options').createMany(problem.options);
+            }
         });
 
         return response.ok({ problemsList })
@@ -61,11 +65,12 @@ export default class ProblemsController {
     public async random({ request, response }: HttpContextContract) {
         const playerLevel = await Database
                                     .query()
-                                    .select('p.level')
-                                    .from('problems as p')
-                                    .join('players as p2', 'p2.player_level', '=', 'p.level')
-                                    .where('p2.id',request.param('id'))
-                                    .groupBy('p.level')
+                                    .select('description')
+                                    .from('levels as l')
+                                    .join('players as p', 'p.player_level', 'l.id')
+                                    .where('p.id',request.param('id'))                                    
+
+        const levelsBetween = playerLevel[0].description.substring(0, playerLevel[0].description.indexOf(' '));        
 
         const alreadyAnswered = await Answer
                                         .query()
@@ -73,11 +78,13 @@ export default class ProblemsController {
                                         .where('player_id', request.param('id'));
 
         const alreadyAnsweredIds = alreadyAnswered.map((answer) => answer.problem_id);
+
         const problems = await Database
                                 .query()
                                 .from('problems')
+                                .join('levels as l', 'l.id', 'problems.level')
                                 .whereNotIn('id', alreadyAnsweredIds)
-                                .where('level', playerLevel[0].level)
+                                .where('l.description', 'like', `${levelsBetween}%`)
                                 .orderByRaw('RANDOM()')
                                 .limit(1);
 
