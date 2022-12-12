@@ -81,9 +81,9 @@ export default class ProblemsController {
 
         const problems = await Database
                                 .query()
-                                .from('problems')
+                                .from('problems as p')
                                 .join('levels as l', 'l.id', 'problems.level')
-                                .whereNotIn('id', alreadyAnsweredIds)
+                                .whereNotIn('p.id', alreadyAnsweredIds)
                                 .where('l.description', 'like', `${levelsBetween}%`)
                                 .orderByRaw('RANDOM()')
                                 .limit(1);
