@@ -4,7 +4,6 @@ import Option from 'App/Models/Option'
 import Database from '@ioc:Adonis/Lucid/Database';
 import Answer from 'App/Models/Answer';
 
-
 export default class ProblemsController {
     public async store({ request, response }: HttpContextContract) {
         const problemsList = request.input("problems");
@@ -81,6 +80,7 @@ export default class ProblemsController {
 
         const problems = await Database
                                 .query()
+                                .select('p.id', 'p.description', 'p.tips')
                                 .from('problems as p')
                                 .join('levels as l', 'l.id', 'p.level')
                                 .whereNotIn('p.id', alreadyAnsweredIds)
@@ -90,9 +90,10 @@ export default class ProblemsController {
 
         const options = await Database
                                 .query()
+                                .select('id', 'description', 'correct')
                                 .from('options')
                                 .where('problem_id', problems[0].id);
                             
         return response.ok({ problems, options })
-    }
+    }    
 }
