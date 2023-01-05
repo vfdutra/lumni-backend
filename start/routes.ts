@@ -64,14 +64,14 @@ Route.post('/users', 'UsersController.store').as('users.store')
   // })
   // .middleware('auth:api')
 
-Route.get('/google/redirect', async ({ ally }) => {
-  return ally.use('google').redirect()
+Route.get('/github/redirect', async ({ ally }) => {
+  return ally.use('github').redirect()
 })
 
-Route.get('/google/callback', async ({ ally }) => {
-  const google = ally.use('google')
+Route.get('/github/callback', async ({ ally }) => {
+  const github = ally.use('github')
 
-  const user = await google.user()
+  const user = await github.user()
 
   return user
 })
