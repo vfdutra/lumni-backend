@@ -63,3 +63,15 @@ Route.post('/users', 'UsersController.store').as('users.store')
   Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
   // })
   // .middleware('auth:api')
+
+Route.get('/google/redirect', async ({ ally }) => {
+  return ally.use('google').redirect()
+})
+
+Route.get('/google/callback', async ({ ally }) => {
+  const google = ally.use('google')
+
+  const user = await google.user()
+
+  return user
+})
