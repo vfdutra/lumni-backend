@@ -75,3 +75,15 @@ Route.get('/github/callback', async ({ ally }) => {
 
   return user
 })
+
+Route.get('/google/redirect', async ({ ally }) => {
+  return ally.use('google').redirect()
+})
+
+Route.get('/google/callback', async ({ ally }) => {
+  const google = ally.use('google')
+
+  const user = await google.user()
+
+  return user
+})
