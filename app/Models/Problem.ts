@@ -15,6 +15,9 @@ export default class Problem extends BaseModel {
   public options: HasMany<typeof Option>
 
   @column()
+  public theme: number
+
+  @column()
   public level: number
 
   @column()
