@@ -61,5 +61,35 @@ Route.post('/users', 'UsersController.store').as('users.store')
   Route.get('/findPlayer/:id', 'PlayersController.findPlayer').as('players.findPlayer')
   Route.get('/findAllPlayers', 'PlayersController.findAll').as('players.findAll')
   Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
+  
+  //Dashboard
+  Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
+  Route.get('/correctAnswersByThemes', 'DashboardController.correctAnswersByThemes').as('dashboard.correctAnswersByThemes')
+
+  
   // })
   // .middleware('auth:api')
+
+Route.get('/github/redirect', async ({ ally }) => {
+  return ally.use('github').redirect()
+})
+
+Route.get('/github/callback', async ({ ally }) => {
+  const github = ally.use('github')
+
+  const user = await github.user()
+
+  return user
+})
+
+Route.get('/google/redirect', async ({ ally }) => {
+  return ally.use('google').redirect()
+})
+
+Route.get('/google/callback', async ({ ally }) => {
+  const google = ally.use('google')
+
+  const user = await google.user()
+
+  return user
+})
