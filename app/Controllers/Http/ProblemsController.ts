@@ -10,6 +10,7 @@ export default class ProblemsController {
         problemsList.forEach(problem => {
             const newProblem = new Problem();
             newProblem.description = problem.description;
+            newProblem.theme = problem.theme;
             newProblem.level = problem.level;
             newProblem.tips = problem.tips;
 
