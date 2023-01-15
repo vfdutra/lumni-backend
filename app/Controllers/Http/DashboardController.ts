@@ -1,5 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Player from 'App/Models/Player'
 import Problem from 'App/Models/Problem'
 import Option from 'App/Models/Option'
 import Answer from 'App/Models/Answer'  
@@ -26,7 +25,7 @@ export default class DashboardController {
       const numberOfAnswersByTheme = answers.filter(answer => problemsByTheme.map(problem => problem.id).includes(answer.problem_id)).length
 
       let countCorrect = 0;
-      const questionsStats = problems.filter(problem => problem.theme === theme.theme).map((problem) => {
+      problems.filter(problem => problem.theme === theme.theme).map((problem) => {
         const correctOption = options.filter(option => option.problem_id === problem.id && option.correct === 1)[0]
         const correctAnswers = answers.filter(answer => answer.id_answer === correctOption.id).length
         countCorrect += correctAnswers
