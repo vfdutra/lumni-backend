@@ -2,14 +2,12 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
 import Player from 'App/Models/Player'
 import Problem from 'App/Models/Problem'
+import Options from 'App/Models/Option'
 
 export default class Answer extends BaseModel {
   @column({ isPrimary: true })
   public id: number
-
-  @column()
-  public id_answer: number
-
+ 
   @column()
   public used_time: number
 
@@ -25,6 +23,9 @@ export default class Answer extends BaseModel {
   @column()
   public problem_id: number
 
+  @column()
+  public option_id: number
+
   @belongsTo(() => Player, {
     localKey: 'player_id',
   })
@@ -34,4 +35,9 @@ export default class Answer extends BaseModel {
     localKey: 'problem_id',
   })
   public problem: BelongsTo<typeof Problem>
+
+  @belongsTo(() => Options, {
+    localKey: 'option_id',
+  })
+  public option: BelongsTo<typeof Options>  
 }

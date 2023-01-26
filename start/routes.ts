@@ -26,11 +26,10 @@ Route.get('/', async () => {
 
 Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
-Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 
 Route.post('/users', 'UsersController.store').as('users.store')
-// Route
-  // .group(() => {
+Route
+  .group(() => {
   //users
   Route.put('/users/:id', 'UsersController.update').as('users.update')
   Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
@@ -67,21 +66,12 @@ Route.post('/users', 'UsersController.store').as('users.store')
   //dashboard
   Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
   Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').as('dashboard.answersStatsByThemes')
+  Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.playerLevel')
 
-  // })
-  // .middleware('auth:api')
-
-Route.get('/github/redirect', async ({ ally }) => {
-  return ally.use('github').redirect()
+  //Logout
+  Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 })
-
-Route.get('/github/callback', async ({ ally }) => {
-  const github = ally.use('github')
-
-  const user = await github.user()
-
-  return user
-})
+.middleware('auth:api')
 
 Route.get('/google/redirect', async ({ ally }) => {
   return ally.use('google').redirect()
@@ -90,7 +80,10 @@ Route.get('/google/redirect', async ({ ally }) => {
 Route.get('/google/callback', async ({ ally }) => {
   const google = ally.use('google')
 
-  const user = await google.user()
-
-  return user
+  if (google.accessDenied()) {
+    return 'Access was denied'
+  } else {
+    const user = await google.user()
+    return user
+  }
 })
