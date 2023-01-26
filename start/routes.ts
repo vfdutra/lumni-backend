@@ -28,8 +28,7 @@ Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
 
 Route.post('/users', 'UsersController.store').as('users.store')
-Route
-  .group(() => {
+// Route.group(() => {
   //users
   Route.put('/users/:id', 'UsersController.update').as('users.update')
   Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
@@ -70,8 +69,7 @@ Route
 
   //Logout
   Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
-})
-.middleware('auth:api')
+// }).middleware('auth:api')
 
 Route.get('/google/redirect', async ({ ally }) => {
   return ally.use('google').redirect()
