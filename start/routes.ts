@@ -61,6 +61,7 @@ Route.post('/users', 'UsersController.store').as('users.store')
   Route.get('/findPlayer/:id', 'PlayersController.findPlayer').as('players.findPlayer')
   Route.get('/findAllPlayers', 'PlayersController.findAll').as('players.findAll')
   Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
+  Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore') 
   
   //Dashboard
   Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
