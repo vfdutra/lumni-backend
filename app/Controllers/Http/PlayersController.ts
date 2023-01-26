@@ -39,4 +39,12 @@ export default class PlayersController {
     const players = await Player.query().orderBy('score', 'desc')
     return response.ok({ players })
   }
+
+  public async addScore({ request, response }: HttpContextContract) {
+    const player = await Player.findByOrFail('id', request.param('id'))
+    const score = request.input('addScore')
+    player.score = player.score + score
+    await player.save()
+    return response.ok({ player })
+  }
 }
