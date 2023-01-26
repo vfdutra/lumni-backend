@@ -13,6 +13,9 @@ export default class Player extends BaseModel {
   @column()
   public score: number
 
+  @column()
+  public player_level: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

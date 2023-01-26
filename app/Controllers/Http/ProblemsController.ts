@@ -4,7 +4,6 @@ import Option from 'App/Models/Option'
 import Database from '@ioc:Adonis/Lucid/Database';
 import Answer from 'App/Models/Answer';
 
-
 export default class ProblemsController {
     public async store({ request, response }: HttpContextContract) {
         const problemsList = request.input("problems");
@@ -82,15 +81,54 @@ export default class ProblemsController {
 
         const problems = await Database
                                 .query()
-                                .from('problems')
-                                .join('levels as l', 'l.id', 'problems.level')
-                                .whereNotIn('id', alreadyAnsweredIds)
+                                .select('p.id', 'p.description', 'p.tips')
+                                .from('problems as p')
+                                .join('levels as l', 'l.id', 'p.level')
+                                .whereNotIn('p.id', alreadyAnsweredIds)
                                 .where('l.description', 'like', `${levelsBetween}%`)
                                 .orderByRaw('RANDOM()')
                                 .limit(1);
 
         const options = await Database
                                 .query()
+                                .select('id', 'description', 'correct')
+                                .from('options')
+                                .where('problem_id', problems[0].id);
+                            
+        return response.ok({ problems, options })
+    }
+    
+    public async randomByTheme({ request, response }: HttpContextContract) {
+        const playerLevel = await Database
+                                    .query()
+                                    .select('description')
+                                    .from('levels as l')
+                                    .join('players as p', 'p.player_level', 'l.id')
+                                    .where('p.id',request.param('id'))                                    
+
+        const levelsBetween = playerLevel[0].description.substring(0, playerLevel[0].description.indexOf(' '));        
+
+        const alreadyAnswered = await Answer
+                                        .query()
+                                        .select('problem_id')
+                                        .where('player_id', request.param('id'));
+
+        const alreadyAnsweredIds = alreadyAnswered.map((answer) => answer.problem_id);
+
+        const problems = await Database
+                                .query()
+                                .select('p.id', 'p.description', 'p.tips')
+                                .from('problems as p')
+                                .join('levels as l', 'l.id', 'p.level')
+                                .whereNotIn('p.id', alreadyAnsweredIds)
+                                .where('l.description', 'like', `${levelsBetween}%`)
+                                .where('p.theme', request.param('id_theme'))
+                                .orderByRaw('RANDOM()')
+                                .limit(1);
+
+        const options = await Database
+                                .query()
+                                .select('id', 'description', 'correct')
                                 .from('options')
                                 .where('problem_id', problems[0].id);
                             

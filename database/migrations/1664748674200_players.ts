@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('ranking')
       table.integer('score')
+      table.integer('player_level')
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
       table.integer('user_id').unsigned().references('id').inTable('users')

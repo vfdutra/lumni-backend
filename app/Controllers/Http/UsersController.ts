@@ -42,6 +42,7 @@ export default class UsersController {
 
     public async findUser ({ response, request }: HttpContextContract){
         const user = await User.findByOrFail('id', request.param('id'))
-        return response.ok({user})
+        const player = await user.related('player').query()
+        return response.ok({user, player})
     }
 }

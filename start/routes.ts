@@ -35,7 +35,7 @@ Route.post('/users', 'UsersController.store').as('users.store')
   Route.put('/users/:id', 'UsersController.update').as('users.update')
   Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
   Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
-  Route.post('/findUser/:id', 'UsersController.findUser').as('users.findUser')
+  Route.get('/findUser/:id', 'UsersController.findUser').as('users.findUser')
 
   //problem
   Route.post('/problems', 'ProblemsController.store').as('problems.store')
@@ -45,6 +45,7 @@ Route.post('/users', 'UsersController.store').as('users.store')
   Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
   Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
   Route.get('/randomProblem/:id', 'ProblemsController.random').as('problems.random')
+  Route.get('/randomProblemByTheme/:id/theme/:id_theme', 'ProblemsController.randomByTheme').as('problems.randomByTheme')
 
   //answers
   Route.post('/answers', 'AnswersController.store').as('answers.store')
@@ -61,13 +62,12 @@ Route.post('/users', 'UsersController.store').as('users.store')
   Route.get('/findPlayer/:id', 'PlayersController.findPlayer').as('players.findPlayer')
   Route.get('/findAllPlayers', 'PlayersController.findAll').as('players.findAll')
   Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
-  Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore') 
+  Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore')
   
-  //Dashboard
+  //dashboard
   Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
-  Route.get('/correctAnswersByThemes', 'DashboardController.correctAnswersByThemes').as('dashboard.correctAnswersByThemes')
+  Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').as('dashboard.answersStatsByThemes')
 
-  
   // })
   // .middleware('auth:api')
 
