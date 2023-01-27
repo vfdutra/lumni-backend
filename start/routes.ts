@@ -65,7 +65,8 @@ Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore')
 //dashboard
 Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
 Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').as('dashboard.answersStatsByThemes')
-Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.playerLevel')
+Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.answersByPlayer')
+Route.get('/numberOfQuestionsByLevel', 'DashboardController.numberOfQuestionsByLevel').as('dashboard.numberOfQuestionsByLevel')
 
 Route.get('/google/redirect', async ({ ally }) => {
   return ally.use('google').redirect()

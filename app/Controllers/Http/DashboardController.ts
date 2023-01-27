@@ -3,15 +3,29 @@ import Problem from 'App/Models/Problem'
 import Option from 'App/Models/Option'
 import Answer from 'App/Models/Answer'  
 import Player from 'App/Models/Player'
+import Database from '@ioc:Adonis/Lucid/Database'
 export default class DashboardController {
   public async numberOfQuestionsByThemes({ response }: HttpContextContract) {
-    const problems = await Problem.all()
-    const themes = await Problem.query().select('theme').distinct()
-    const numberOfQuestionsByThemes = themes.map((theme) => {
-      const numberOfQuestions = problems.filter(problem => problem.theme === theme.theme).length  
-      return { theme: theme.theme, questions: numberOfQuestions }
-    })
-    return response.ok({ numberOfQuestionsByThemes, total: problems.length })
+    const numberOfQuestionsByThemes = await Database
+                            .query()
+                            .select('theme')
+                            .from('problems')
+                            .count('*', 'questions')
+                            .groupBy('theme')
+                            .orderBy('theme', 'asc')
+
+    return response.ok({ numberOfQuestionsByThemes, total: numberOfQuestionsByThemes.length })
+  }
+
+  public async numberOfQuestionsByLevel ({ response }: HttpContextContract) {
+    const levels = await Database
+                          .query()
+                          .select('level')
+                          .count('*','numberOfQuestions')
+                          .from('problems')
+                          .groupBy('level')
+                          .orderBy('level', 'asc')
+    return response.ok({ levels, total: levels.length })
   }
 
   public async answersStatsByThemes ({ response }: HttpContextContract) {
@@ -58,5 +72,4 @@ export default class DashboardController {
     )
     return response.ok(playerData)
   }
-
 }
