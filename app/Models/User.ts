@@ -9,7 +9,7 @@ export default class User extends BaseModel {
   public id: number
 
   @column()
-  public email: string
+  public email: string | null
 
   @column({ serializeAs: null })
   public password: string
@@ -18,7 +18,7 @@ export default class User extends BaseModel {
   public rememberMeToken?: string
 
   @column()
-  public name: string
+  public name: string 
 
   @column()
   public type: number

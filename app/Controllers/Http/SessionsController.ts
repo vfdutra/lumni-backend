@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
+import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class SessionsController {
   public async store ({ auth, request, response }: HttpContextContract) {
@@ -22,7 +23,7 @@ export default class SessionsController {
   }
   
 
-  public async googleCallback({ ally, response }: HttpContextContract) {
+  public async googleCallback({ ally }: HttpContextContract) {
     const google = ally.use('google')
 
     if (google.accessDenied()) {
@@ -30,16 +31,17 @@ export default class SessionsController {
     } else {
       const user = await google.user()
 
-      return response.ok({user})
-      
       const userExists = await User.findBy('email', user.email)
-      if (userExists) {
+     if (userExists) {
         return userExists
       }
+
+      const password = await Hash.make(user.email || "")
+
       const newUser = await User.create({
         name: user.name,
         email: user.email,
-        password: user.token,
+        password 
       })
       return newUser
     }
