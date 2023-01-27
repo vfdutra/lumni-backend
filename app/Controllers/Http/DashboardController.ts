@@ -1,5 +1,4 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Problem from 'App/Models/Problem'
 import Option from 'App/Models/Option'
 import Answer from 'App/Models/Answer'  
 import Player from 'App/Models/Player'
@@ -29,23 +28,56 @@ export default class DashboardController {
   }
 
   public async answersStatsByThemes ({ response }: HttpContextContract) {
-    const problems = await Problem.query()
-    const themes = await Problem.query().select('theme').distinct()
-    const options = await Option.query()
-    const answers = await Answer.query()
-    const answerStatsByTheme = themes.map((theme) => {
-      const problemsByTheme = problems.filter(problem => problem.theme === theme.theme)
-      const numberOfAnswersByTheme = answers.filter(answer => problemsByTheme.map(problem => problem.id).includes(answer.problem_id)).length
-
-      let countCorrect = 0;
-      problems.filter(problem => problem.theme === theme.theme).map((problem) => {
-        const correctOption = options.filter(option => option.problem_id === problem.id && option.correct === 1)[0]
-        const correctAnswers = answers.filter(answer => answer.option_id === correctOption.id).length
-        countCorrect += correctAnswers
+    const answerStatsByTheme = await Database
+      .query()
+      .select('theme')
+      .from('problems')
+      .count('*', 'numberOfQuestions')
+      .groupBy('theme')
+      .orderBy('theme', 'asc')
+      .then(async (themes) => {
+        const answerStatsByTheme = await Promise.all(
+          themes.map(async (theme) => {
+            const numberOfAnswersByTheme = await Database
+              .query()
+              .select('problem_id')
+              .from('answers')
+              .where('problem_id', 'in', Database
+                .query()
+                .select('id')
+                .from('problems')
+                .where('theme', theme.theme)
+              )
+              .count('*', 'numberOfAnswersByTheme')
+              .groupBy('problem_id')
+              .orderBy('problem_id', 'asc')
+            const numberOfAnswersByThemeTotal = numberOfAnswersByTheme.reduce((acc, cur) => acc + cur.numberOfAnswersByTheme, 0)
+            const correctAnswers = await Database
+              .query()
+              .select('problem_id')
+              .from('answers')
+              .where('option_id', 'in', Database
+                .query()
+                .select('id')
+                .from('options')
+                .where('correct', 1)
+              )
+              .where('problem_id', 'in', Database
+                .query()
+                .select('id')
+                .from('problems')
+                .where('theme', theme.theme)
+              )
+              .count('*', 'correctAnswers')
+              .groupBy('problem_id')
+              .orderBy('problem_id', 'asc')
+            const correctAnswersTotal = correctAnswers.reduce((acc, cur) => acc + cur.correctAnswers, 0)
+            const wrongAnswers = numberOfAnswersByThemeTotal - correctAnswersTotal
+            return { theme: theme.theme, numberOfQuestions: theme.numberOfQuestions, numberOfAnswersByTheme: numberOfAnswersByThemeTotal, correctAnswers: correctAnswersTotal, wrongAnswers }
+          })
+        )
+        return answerStatsByTheme
       })
-      const countWrong = numberOfAnswersByTheme-countCorrect;
-      return { theme: theme.theme, numberOfQuestions: problemsByTheme.length, numberOfAnswersByTheme: numberOfAnswersByTheme, correctAnswers: countCorrect, wrongAnswers: countWrong }
-    })
     return response.ok({ answerStatsByTheme })
   }
 
