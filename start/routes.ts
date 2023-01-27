@@ -24,52 +24,48 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
+Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
 
 Route.post('/users', 'UsersController.store').as('users.store')
-// Route.group(() => {
-  //users
-  Route.put('/users/:id', 'UsersController.update').as('users.update')
-  Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
-  Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
-  Route.get('/findUser/:id', 'UsersController.findUser').as('users.findUser')
 
-  //problem
-  Route.post('/problems', 'ProblemsController.store').as('problems.store')
-  Route.delete('/problems/:id', 'ProblemsController.delete').as('problems.delete')
-  Route.put('/problems/:id', 'ProblemsController.update').as('problems.update')
-  Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll')
-  Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
-  Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
-  Route.get('/randomProblem/:id', 'ProblemsController.random').as('problems.random')
-  Route.get('/randomProblemByTheme/:id/theme/:id_theme', 'ProblemsController.randomByTheme').as('problems.randomByTheme')
+//users
+Route.put('/users/:id', 'UsersController.update').as('users.update')
+Route.delete('/users/:id', 'UsersController.delete').as('users.delete')
+Route.get('/findAllUsers', 'UsersController.findAll').as('users.findAll')
+Route.get('/findUser/:id', 'UsersController.findUser').as('users.findUser')
 
-  //answers
-  Route.post('/answers', 'AnswersController.store').as('answers.store')
-  Route.put('/answers/:id', 'AnswersController.update').as('answers.update')
-  Route.delete('/answers/:id', 'AnswersController.delete').as('answers.delete')
-  Route.get('/findAnswer/:id', 'AnswersController.findAnswer').as('answers.findAnswer')
-  Route.get('/findAllAnswers', 'AnswersController.findAll').as('answers.findAll')
-  Route.get('/findAnswerByPlayer/:id', 'AnswersController.findAnswerByPlayer').as('answers.findAnswerByPlayer')
+//problem
+Route.post('/problems', 'ProblemsController.store').as('problems.store')
+Route.delete('/problems/:id', 'ProblemsController.delete').as('problems.delete')
+Route.put('/problems/:id', 'ProblemsController.update').as('problems.update')
+Route.get('/findAllProblems', 'ProblemsController.findAll').as('problems.findAll')
+Route.delete('/deleteOption/:id', 'ProblemsController.deleteOption').as('problems.deleteOption')
+Route.get('/findProblem/:id', 'ProblemsController.findProblem').as('problems.findProblem')
+Route.get('/randomProblem/:id', 'ProblemsController.random').as('problems.random')
+Route.get('/randomProblemByTheme/:id/theme/:id_theme', 'ProblemsController.randomByTheme').as('problems.randomByTheme')
 
-  //players
-  Route.post('/players', 'PlayersController.store').as('players.store')
-  Route.put('/players/:id', 'PlayersController.update').as('players.update')
-  Route.delete('/players/:id', 'PlayersController.delete').as('players.delete')
-  Route.get('/findPlayer/:id', 'PlayersController.findPlayer').as('players.findPlayer')
-  Route.get('/findAllPlayers', 'PlayersController.findAll').as('players.findAll')
-  Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
-  Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore')
+//answers
+Route.post('/answers', 'AnswersController.store').as('answers.store')
+Route.put('/answers/:id', 'AnswersController.update').as('answers.update')
+Route.delete('/answers/:id', 'AnswersController.delete').as('answers.delete')
+Route.get('/findAnswer/:id', 'AnswersController.findAnswer').as('answers.findAnswer')
+Route.get('/findAllAnswers', 'AnswersController.findAll').as('answers.findAll')
+Route.get('/findAnswerByPlayer/:id', 'AnswersController.findAnswerByPlayer').as('answers.findAnswerByPlayer')
+
+//players
+Route.post('/players', 'PlayersController.store').as('players.store')
+Route.put('/players/:id', 'PlayersController.update').as('players.update')
+Route.delete('/players/:id', 'PlayersController.delete').as('players.delete')
+Route.get('/findPlayer/:id', 'PlayersController.findPlayer').as('players.findPlayer')
+Route.get('/findAllPlayers', 'PlayersController.findAll').as('players.findAll')
+Route.get('/highscore', 'PlayersController.highscore').as('players.highscore')
+Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore')
   
-  //dashboard
-  Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
-  Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').as('dashboard.answersStatsByThemes')
-  Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.playerLevel')
-
-  //Logout
-  Route.get('/logout', 'SessionsController.destroy').as('sessions.destroy')
-// }).middleware('auth:api')
+//dashboard
+Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
+Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').as('dashboard.answersStatsByThemes')
+Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.playerLevel')
 
 Route.get('/google/redirect', async ({ ally }) => {
   return ally.use('google').redirect()
