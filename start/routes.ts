@@ -68,17 +68,20 @@ Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').a
 Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.answersByPlayer')
 Route.get('/numberOfQuestionsByLevel', 'DashboardController.numberOfQuestionsByLevel').as('dashboard.numberOfQuestionsByLevel')
 
-Route.get('/google/redirect', async ({ ally }) => {
-  return ally.use('google').redirect()
-})
+Route.get('/google/redirect', 'SessionsController.googleRedirect').as('sessions.googleRedirect')
+Route.get('/google/callback', 'SessionsController.googleCallback').as('sessions.googleCallback')
 
-Route.get('/google/callback', async ({ ally }) => {
-  const google = ally.use('google')
+// Route.get('/google/redirect', async ({ ally }) => {
+//   return ally.use('google').redirect()
+// })
 
-  if (google.accessDenied()) {
-    return 'Access was denied'
-  } else {
-    const user = await google.user()
-    return user
-  }
-})
+// Route.get('/google/callback', async ({ ally }) => {
+//   const google = ally.use('google')
+
+//   if (google.accessDenied()) {
+//     return 'Access was denied'
+//   } else {
+//     const user = await google.user()
+//     return user
+//   }
+// })
