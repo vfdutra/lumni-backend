@@ -65,23 +65,8 @@ Route.post('/addScore/:id', 'PlayersController.addScore').as('players.addScore')
 //dashboard
 Route.get('/numberOfQuestionsByThemes', 'DashboardController.numberOfQuestionsByThemes').as('dashboard.numberOfQuestionsByThemes')
 Route.get('/answersStatsByThemes', 'DashboardController.answersStatsByThemes').as('dashboard.answersStatsByThemes')
-Route.get('/answersByPlayer', 'DashboardController.answersByPlayer').as('dashboard.answersByPlayer')
+Route.get('/answersByPlayer/:id', 'DashboardController.answersByPlayer').as('dashboard.answersByPlayer')
 Route.get('/numberOfQuestionsByLevel', 'DashboardController.numberOfQuestionsByLevel').as('dashboard.numberOfQuestionsByLevel')
 
 Route.get('/google/redirect', 'SessionsController.googleRedirect').as('sessions.googleRedirect')
 Route.get('/google/callback', 'SessionsController.googleCallback').as('sessions.googleCallback')
-
-// Route.get('/google/redirect', async ({ ally }) => {
-//   return ally.use('google').redirect()
-// })
-
-// Route.get('/google/callback', async ({ ally }) => {
-//   const google = ally.use('google')
-
-//   if (google.accessDenied()) {
-//     return 'Access was denied'
-//   } else {
-//     const user = await google.user()
-//     return user
-//   }
-// })

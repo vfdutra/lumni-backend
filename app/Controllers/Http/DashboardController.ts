@@ -92,27 +92,24 @@ export default class DashboardController {
     return response.ok({ answerStatsByTheme })
   }
 
-  public async answersByPlayer ({ response }: HttpContextContract) {
-    const player = await Player.all()    
-    const playerData = await Promise.all(
-      player.map(async (player) => {
-        const answers = await Answer.query().where('player_id', player.id)
-        const options = await Promise.all(
-          answers.map(async (answer) => {
-            return await Option.query().where('id', answer.option_id)
-          })
-        )
-        const correctAnswers = options
-          .flat()
-          .filter((option) => option.correct === 1).length
-        const wrongAnswers = options
-          .flat()
-          .filter((option) => option.correct === 0).length
-        const average = (correctAnswers / (correctAnswers + wrongAnswers)) * 100
-        
-        return {...player.$attributes, correctAnswers, wrongAnswers, average }
+  public async answersByPlayer ({ response, request}: HttpContextContract) {
+    const player_id = request.param('id')    
+    const player = await Player.findOrFail(player_id)
+    const answers = await Answer.query().where('player_id', player.id)
+    const options = await Promise.all(
+      answers.map(async (answer) => {
+        return await Option.query().where('id', answer.option_id)
       })
     )
+    const correctAnswers = options
+      .flat()
+      .filter((option) => option.correct === 1).length
+    const wrongAnswers = options
+      .flat()
+      .filter((option) => option.correct === 0).length
+    const average = (correctAnswers / (correctAnswers + wrongAnswers)) * 100
+    
+    const playerData = {...player.$attributes, correctAnswers, wrongAnswers, average }
     return response.ok(playerData)
   }
 }
