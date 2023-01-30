@@ -13,7 +13,12 @@ export default class DashboardController {
                             .groupBy('theme')
                             .orderBy('theme', 'asc')
 
-    return response.ok({ numberOfQuestionsByThemes, total: numberOfQuestionsByThemes.length })
+    const total = await Database
+                          .query() 
+                          .count('*','total')
+                          .from('problems')                          
+
+    return response.ok({ numberOfQuestionsByThemes, total: total[0].total})
   }
 
   public async numberOfQuestionsByLevel ({ response }: HttpContextContract) {
@@ -24,7 +29,13 @@ export default class DashboardController {
                           .from('problems')
                           .groupBy('level')
                           .orderBy('level', 'asc')
-    return response.ok({ levels, total: levels.length })
+
+    const total = await Database
+                        .query() 
+                        .count('*','total')
+                        .from('problems')    
+
+    return response.ok({ levels, total: total[0].total })
   }
 
   public async answersStatsByThemes ({ response }: HttpContextContract) {
